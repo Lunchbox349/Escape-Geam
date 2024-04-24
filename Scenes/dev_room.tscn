@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dot88brvesjpd"]
+
+[ext_resource type="Texture2D" uid="uid://c631qi5siwq8u" path="res://addons/godot-prototype-texture/Vector/checker_orange_512x512.svg" id="1_ybdrw"]
+[ext_resource type="PackedScene" uid="uid://brt76byrupp8q" path="res://Scenes/instanceCube.tscn" id="2_0ndka"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jo2sa"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0mf48"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n3p4s"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("1_ybdrw")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[node name="devRoom" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 0.1, 0, 0, 0, 100, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_jo2sa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+gi_mode = 0
+mesh = SubResource("BoxMesh_0mf48")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_n3p4s")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.735825, 0.677171, 0, -0.677171, 0.735825, 0, 0, 0)
+shadow_enabled = true
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("2_0ndka")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
+
+[node name="RigidBody3D" parent="." instance=ExtResource("2_0ndka")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 0)

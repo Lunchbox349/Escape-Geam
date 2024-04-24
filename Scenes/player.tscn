@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0753btfk471m"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_okahj"]
+[ext_resource type="Texture2D" uid="uid://cb21obumfcckg" path="res://addons/godot-prototype-texture/Vector/logo_blue_512x512.svg" id="2_t7e7m"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4d6pi"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2ie5y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qnshb"]
+albedo_texture = ExtResource("2_t7e7m")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_p6rse"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 7
+floor_stop_on_slope = false
+platform_on_leave = 2
+platform_floor_layers = 4294901761
+script = ExtResource("1_okahj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_4d6pi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_2ie5y")
+surface_material_override/0 = SubResource("StandardMaterial3D_qnshb")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_p6rse")
